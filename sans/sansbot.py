@@ -6,6 +6,7 @@ client = commands.Bot(command_prefix=".")
 token = ""
 players = {}
 client.mystatus = "off"
+client.already_running = False
 
 @client.event
 async def on_ready():
@@ -28,10 +29,14 @@ async def on_message(message):
     if client.mystatus != "on":
         return
 
+    if client.already_running is True:
+        return
+
     server = message.server
     sentence = message.content
     author = message.author
     channel = author.voice.voice_channel
+    client.already_running = True
 
     word_list = sentence.split()
 
@@ -44,13 +49,13 @@ async def on_message(message):
 
         if characters >= 16:
             soundfile = "sans_long.mp3"
-            delay = 2.0
+            delay = 3.0
         elif characters >= 7:
             soundfile = "sans_medium.mp3"
-            delay = 1.0
+            delay = 2.0
         else:
             soundfile = "sans_small.mp3"
-            delay = 0.5
+            delay = 1.5
 
         player = voice.create_ffmpeg_player(soundfile)
         players[server.id] = player
@@ -59,7 +64,9 @@ async def on_message(message):
 
         await asyncio.sleep(delay)
 
+    client.already_running = False
 
+    
 @client.command(pass_context=True)
 async def sans(ctx, status=""):
 
