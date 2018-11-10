@@ -63,8 +63,6 @@ async def on_message(message):
 @client.command(pass_context=True)
 async def sans(ctx, status=""):
 
-    print("ran command sans")
-
     if status == "on":
         await client.send_message(ctx.message.channel, "*uhh uhhhhh* (online)")
         client.mystatus = "on"
