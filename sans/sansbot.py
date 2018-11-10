@@ -60,7 +60,6 @@ async def on_message(message):
         await asyncio.sleep(delay)
 
 
-
 @client.command(pass_context=True)
 async def sans(ctx, status=""):
 
