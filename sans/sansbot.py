@@ -66,15 +66,20 @@ async def on_message(message):
 
     client.already_running = False
 
-    
+
 @client.command(pass_context=True)
 async def sans(ctx, status=""):
 
     if status == "on":
-        await client.send_message(ctx.message.channel, "*uhh uhhhhh* (online)")
         client.mystatus = "on"
         print("Status: on.")
-        voice = await client.join_voice_channel(ctx.message.author.voice.voice_channel)
+
+        try:
+            voice = await client.join_voice_channel(ctx.message.author.voice.voice_channel)
+            await client.send_message(ctx.message.channel, "*uhh uhhhhh* (online)")
+        except:
+            await client.say("User is not in channel.")
+            client.mystatus = "off"
 
     elif status == "off":
         await client.send_message(ctx.message.channel, "*uhh uhhhh* (offline)")
